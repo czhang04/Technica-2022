@@ -79,9 +79,13 @@ def call(phone):
 
 def track(phone, dest, threshold):
     #curr_loc = geocoder.ip('me') # multiple users out of scope of this project
-    curr_coords = (38.9658, -77.068)#curr_loc.latlng
+    #curr_coords = (38.9658, -77.068)#curr_loc.latlng
+    f = open("demo.txt", "r")
+    longitude = f.readline()
+    latitude = f.readline()
+    curr_coords = (longitude, latitude)
     if geodesic(curr_coords, dest).miles <= threshold: # user close enough to dest, call user
-        #call(phone) # commented out because i have no twilio
+        #call(phone) # commented out to avoid too many phone calls
         users[phone][2] = False
         print("byebye " + phone)
         writePickleDict(users)
@@ -95,7 +99,7 @@ def big_loop():
         print(users)
         for u in users:
             print("arrived in for loop")
-            print(users[u][2])
+            print("User has arrived: " + str(users[u][2]))
             if users[u][2]:
                 dest = users[u][0]
                 mode = users[u][1]

@@ -3,6 +3,7 @@ from multiprocessing import Process, Value
 import time
 from twilio.rest import Client
 from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 import geocoder
 
 from flask import Flask, render_template, request, session, redirect, url_for
@@ -29,20 +30,30 @@ def form():
         users = {phone: coords}
     return render_template('home.html')
 
-@app.route('/call', methods=['GET', 'POST'])
-def call():
+def call(phone):
     call = client.calls.create(
                         twiml='<Response><Say>You have almost arrived at your destination!</Say></Response>',
-                        to='+12407510959',
-                        from_='+18507883830'
+                        to=phone,
+                        from_=twilio_phone
                     )
 
+def track(phone, dest, threshold):
+    curr_loc = geocoder.ip('me') # multiple users out of scope of this project
+    curr_coords = (curr_loc.latitude, curr_loc.longitude)
+    if geodesic(curr_coords, dest).miles <= threshold: # user close enough to dest, call user
+        call(phone)
+        del users[phone]
+        
+
 def big_loop():
-    i = 0
-    while(True):
-        print(i)
-        i += 1
-        time.sleep(20)
+    while True:
+        for k, v in users:
+            phone = k
+            dest = v[0]
+            threshold = 0.5 # train
+            if (v[1] == "bus"):
+                threshold = 0.25 # bus
+            track(phone, dest, threshold)
 
 if __name__ == '__main__':
     print("start")

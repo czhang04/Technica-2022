@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <section class="hero is-fullheight">
+    <section class="hero is-info is-fullheight">
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
@@ -79,29 +79,11 @@
                             Sleep without worrying about missing a stop on your trip
                         </h2>
                         <div class="box">
-                            <h2 class="subtitle">
-                                Enter Phone Number
-                            </h2>
                             <div class="field is-grouped">
                                 <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="+1(XXX)XXX-XXXX">
+                                    <input class="input" type="text" placeholder="Enter phone number">
                                 </p>
-                            </div>
-                            <h2 class="subtitle">
-                                I'm traveling by...
-                            </h2>
-                            <div class="field is-grouped control container has-text-centered">
-                                <label class="radio">
-                                  <input type="radio" checked="checked" name="radio" id='bus' value='bus'>
-                                  Bus
-                                </label>
-                                <label class="radio">
-                                  <input type="radio" name="radio" id='train' value='train'>
-                                  Train
-                                </label>
-                            </div>
-                            <div class="field is-grouped container">
-                                <p class="control has-text-centered">
+                                <p class="control">
                                     <a class="button is-info is-focused">
                                         Wake Me Up!
                                     </a>
@@ -113,29 +95,7 @@
             </div>
 
     </section>
-  <div class="formholder">
-    <form class='form' action="/" method="POST">
-          <!-- Mode of Transportation -->
-          <p class="instructions">I am riding a:</p>
-          <input type="radio" checked="checked" name="radio" id='bus' value='bus'>
-          <input type="radio" name="radio" id='train' value='train'>
-          
-          <!-- Phone Number -->
-          <p class="instructions">Phone Number:</p>
-          <input name="phone" type="tel" pattern="+1[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="+1(XXX)XXX-XXXX">
-
-          <!-- Destination -->
-          <p class="instructions">Phone Number:</p>
-          <input name="dest" type="text" placeholder="777 Baltimore Ave, College Park, MD">
-
-          <!-- Submit -->
-          <button type="submit">Submit</button>
-    </form>
-
-
-
-  </div>
-  <script async type="text/javascript" src="../js/bulma.js"></script>
+    <script async type="text/javascript" src="../js/bulma.js"></script>
 </body>
 
 </html>

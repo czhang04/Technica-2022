@@ -24,11 +24,35 @@ loc = Nominatim(user_agent="GetLoc")
 def form():
     if request.method == 'POST':
         phone = request.form.get('phone')
+        val_phone = validate_phone(phone)
         dest = request.form.get('dest')
         dest_loc = loc.geocode(dest)
-        coords = (dest_loc.latitude, dest_loc.longitude)
-        users = {phone: coords}
+        mode = request.form.get('mode')
+        print(val_phone)
+        if(val_phone is not None and dest_loc is not None):
+            coords = (dest_loc.latitude, dest_loc.longitude)
+            values = [coords, mode, True]
+            users[val_phone] = values
+            print(users)
+        elif(val_phone is None):
+            return render_template('home.html', msg="Invalid phone.")
+        elif(dest_loc is None):
+            return render_template('home.html', msg="Invalid destination.")
+
     return render_template('home.html')
+
+def validate_phone(phone):
+    try:
+        p = phonenumbers.parse(phone,"US")
+        print(p)
+        if not phonenumbers.is_valid_number(p):
+            p = "+1" + p
+            p = phonenumbers.parse(phone,"US")
+        if not phonenumbers.is_valid_number(p):
+            return None
+        return phonenumbers.format_number(p, phonenumbers.PhoneNumberFormat.E164)
+    except (phonenumbers.phonenumberutil.NumberParseException, ValueError):
+        return None
 
 def call(phone):
     call = client.calls.create(

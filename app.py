@@ -35,6 +35,7 @@ def form():
             values = [coords, mode, True]
             users[val_phone] = values
             print(users)
+            return render_template('home.html', msg="Successfully added!")
         elif(val_phone is None):
             return render_template('home.html', msg="Invalid phone.")
         elif(dest_loc is None):

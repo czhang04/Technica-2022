@@ -9,13 +9,30 @@
 </head>
 
 <body>
-  Hello world
+  <div class="formholder">
+    <form class='form' action="/" method="POST">
+          <!-- Mode of Transportation -->
+          <p class="instructions">I am riding a:</p>
+          <input type="radio" checked="checked" name="radio" id='bus' value='bus'>
+          <input type="radio" name="radio" id='train' value='train'>
+          
+          <!-- Phone Number -->
+          <p class="instructions">Phone Number:</p>
+          <input name="phone" type="tel" pattern="+1[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="+1(XXX)XXX-XXXX">
 
- <!--
-  This script places a badge on your repl's full-browser view back to your repl's cover
-  page. Try various colors for the theme: dark, light, red, orange, yellow, lime, green,
-  teal, blue, blurple, magenta, pink!
-  -->
+          <!-- Destination -->
+          <p class="instructions">Phone Number:</p>
+          <input name="dest" type="text" placeholder="777 Baltimore Ave, College Park, MD">
+
+          <!-- Submit -->
+          <button type="submit">Submit</button>
+    
+    </form>
+
+
+
+  </div>
+
 </body>
 
 </html>

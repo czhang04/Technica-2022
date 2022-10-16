@@ -34,7 +34,8 @@ def form():
         val_phone = validate_phone(phone)
         dest = request.form.get('dest')
         dest_loc = loc.geocode(dest)
-        mode = request.form.get('mode')
+        mode = request.form['radio']
+        print("mode: " + str(mode))
         print(val_phone)
         if(val_phone is not None and dest_loc is not None):
             coords = (dest_loc.latitude, dest_loc.longitude)

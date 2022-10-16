@@ -9,7 +9,7 @@ import geocoder
 from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 
-users = {"+12407510959": [(38.9658, -77.068), "bus"]}
+users = {"+12407510959": [(38.9658, -77.068), "bus",True]}
 
 #set up twilio client
 account_sid = os.environ['TWILIO_ACCOUNT_SID']
@@ -39,21 +39,25 @@ def call(phone):
 
 def track(phone, dest, threshold):
     curr_loc = geocoder.ip('me') # multiple users out of scope of this project
-    curr_coords = (curr_loc.latitude, curr_loc.longitude)
+    curr_coords = curr_loc.latlng
     if geodesic(curr_coords, dest).miles <= threshold: # user close enough to dest, call user
-        call(phone)
-        del users[phone]
+        #call(phone) # commented out because i have no twilio
+        users[phone][2] = False
+        print("byebye " + phone)
         
 
 def big_loop():
     while True:
-        for k, v in users:
-            phone = k
-            dest = v[0]
-            threshold = 0.5 # train
-            if (v[1] == "bus"):
-                threshold = 0.25 # bus
-            track(phone, dest, threshold)
+        for u in users:
+            phone = u
+            if users[phone][2]:
+                dest = users[u][0]
+                mode = users[u][1]
+                threshold = 0.5 # train
+                if (mode == "bus"):
+                    threshold = 0.25 # bus
+                print("tracking " + u + " on " + mode)
+                track(phone, dest, threshold)
 
 if __name__ == '__main__':
     print("start")

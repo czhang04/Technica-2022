@@ -2,6 +2,7 @@ import os
 import phonenumbers
 from multiprocessing import Process, Value
 import time
+import pickle
 from twilio.rest import Client
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
@@ -10,7 +11,10 @@ import geocoder
 from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 
-users = {"+12407510959": [(38.9658, -77.068), "bus",True]}
+users = {"+12407510959": [(38.9658, -77.068), "bus", True]}
+pickle_out = open("user.pickle","wb")
+pickle.dump(users, pickle_out)
+pickle_out.close()
 
 #set up twilio client
 account_sid = os.environ['TWILIO_ACCOUNT_SID']
@@ -23,6 +27,8 @@ loc = Nominatim(user_agent="GetLoc")
 
 @app.route('/', methods=['GET', 'POST'])
 def form():
+    global users
+    users = readPickleDict(users)
     if request.method == 'POST':
         phone = request.form.get('phone')
         val_phone = validate_phone(phone)
@@ -35,6 +41,7 @@ def form():
             values = [coords, mode, True]
             users[val_phone] = values
             print(users)
+            writePickleDict(users)
             return render_template('redirect.html')
         elif(val_phone is None):
             return render_template('home.html', msg="Invalid phone.")
@@ -76,11 +83,14 @@ def track(phone, dest, threshold):
         #call(phone) # commented out because i have no twilio
         users[phone][2] = False
         print("byebye " + phone)
+        writePickleDict(users)
         
 
 def big_loop():
     while True:
         print("arrived in big loop")
+        global users
+        users = readPickleDict(users)
         print(users)
         for u in users:
             print("arrived in for loop")
@@ -91,9 +101,19 @@ def big_loop():
                 threshold = 0.5 # train
                 if (mode == "bus"):
                     threshold = 0.25 # bus
-                print("tracking " + u + " on " + mode)
+                print("tracking " + str(u) + " on " + str(mode))
                 track(u, dest, threshold)
         time.sleep(5)
+
+def writePickleDict(x):
+    pickle_out = open("users.pickle","wb")
+    pickle.dump(x, pickle_out)
+    pickle_out.close()
+
+def readPickleDict(x):
+    pickle_in = open("users.pickle","rb")
+    x = pickle.load(pickle_in)
+    return x
 
 if __name__ == '__main__':
     print("start")

@@ -41,7 +41,7 @@ def form():
         elif(dest_loc is None):
             return render_template('home.html', msg="Invalid destination.")
 
-    return render_template('home.html')
+    return render_template('home.html', msg=None)
 
 def validate_phone(phone):
     try:
@@ -81,7 +81,7 @@ def track(phone, dest, threshold):
 def big_loop():
     while True:
         print("arrived in big loop")
-        time.sleep(10)
+        print(users)
         for u in users:
             print("arrived in for loop")
             print(users[u][2])
@@ -93,6 +93,7 @@ def big_loop():
                     threshold = 0.25 # bus
                 print("tracking " + u + " on " + mode)
                 track(u, dest, threshold)
+        time.sleep(5)
 
 if __name__ == '__main__':
     print("start")

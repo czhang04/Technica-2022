@@ -125,8 +125,12 @@
                             <button class="button is-info is-focused" type="submit" formaction="/">
                                 Wake me up!
                             </button>
+                            
 
                         </form>
+                        {% if msg %}
+                          <h2 class="message">{{ msg }}</h2>
+                        {% endif %}
                         
                         </div>
                     </div>

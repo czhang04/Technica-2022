@@ -80,17 +80,19 @@ def track(phone, dest, threshold):
 
 def big_loop():
     while True:
+        print("arrived in big loop")
         time.sleep(10)
         for u in users:
-            phone = u
-            if users[phone][2]:
+            print("arrived in for loop")
+            print(users[u][2])
+            if users[u][2]:
                 dest = users[u][0]
                 mode = users[u][1]
                 threshold = 0.5 # train
                 if (mode == "bus"):
                     threshold = 0.25 # bus
                 print("tracking " + u + " on " + mode)
-                track(phone, dest, threshold)
+                track(u, dest, threshold)
 
 if __name__ == '__main__':
     print("start")

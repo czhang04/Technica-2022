@@ -13,16 +13,11 @@
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
     <link rel="stylesheet" type="text/css" href="../css/landing.css">
     <style>
-        .flex-parent {
-            display: flex;
-        }
-        .jc-center {
-            justify-content: center;
-        }
-        .center{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25%;
         }
     </style>
 </head>
@@ -81,64 +76,28 @@
                 </div>
             </nav>
             </div>
-
             <div class="hero-body ">
                 <div class="container has-text-centered">
                     <div class="column is-6 is-offset-3">
                         <h1 class="title">
-                            Welcome to Safe Travel
+                            Turn on ringtone, then sleep
                         </h1>
                         <h2 class="subtitle">
-                            Sleep without worrying about missing a stop on your trip
+                            We'll call you when your stop arrives
                         </h2>
-                        <div class="box">
-                            <h2 class="subtitle">
-                                Enter Phone Number
-                            </h2>
-                            <div class="field is-grouped">
-                                <p class="control is-expanded">
-                                    <input class="input" name="phone" type="tel" pattern="+1[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="+1(XXX)XXX-XXXX">
-                                </p>
-                            </div>
-                            <h2 class="subtitle">
-                                I'm traveling by...
-                            </h2>
-                            <div class="field is-grouped control container has-text-centered">
-                                <label class="radio is-expanded">
-                                  <input type="radio" checked="checked" name="radio" id='bus' value='bus'>
-                                  Bus
-                                </label>
-                                <label class="radio">
-                                  <input type="radio" name="radio" id='train' value='train'>
-                                  Train
-                                </label>
-                            </div>
-                            <h2 class="subtitle">
-                                Enter Destination
-                            </h2>
-                            <div class="field is-grouped">
-                                <p class="control is-expanded">
-                                    <input class="input" name="dest" type="text" placeholder="777 Baltimore Ave, College Park, MD">
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvJ5SJthl1GwX6L6pfJB-X9GH4TIga-i_CHA&usqp=CAU" class="center">
+            <br>
             <div class="container">
                 <div class="field is-grouped">
-                    <a href="redirect.html">
-                        <button class="button is-info is-focused is-fullwidth">
-                        Wake me up!
+                    <a href="home.html"><button class="button is-info is-focused">
+                        Return home
                     </button></a>
                 </div> 
             </div>
     </section>
-
-          {% if msg %}
-          <p class="message">{{ msg }}</p>
-          {% endif %}
-  </div>
 
   <script async type="text/javascript" src="../js/bulma.js"></script>
 </body>

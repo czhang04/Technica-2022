@@ -11,8 +11,8 @@ import geocoder
 from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 
-users = {"+12407510959": [(38.9658, -77.068), "bus", True]}
-pickle_out = open("user.pickle","wb")
+users = {}
+pickle_out = open("users.pickle","wb")
 pickle.dump(users, pickle_out)
 pickle_out.close()
 
@@ -54,7 +54,7 @@ def form():
 def validate_phone(phone):
     try:
         p = phonenumbers.parse(phone,"US")
-        print(p)
+        #print(p)
         if not phonenumbers.is_valid_number(p):
             p = "+1" + str(p)
             p = phonenumbers.parse(phone,"US")
@@ -85,28 +85,28 @@ def track(phone, dest, threshold):
     latitude = f.readline()
     curr_coords = (longitude, latitude)
     if geodesic(curr_coords, dest).miles <= threshold: # user close enough to dest, call user
-        #call(phone) # commented out to avoid too many phone calls
+        call(phone) # commented out to avoid too many phone calls
         users[phone][2] = False
-        print("byebye " + phone)
+        print("byebye ")
         writePickleDict(users)
         
 
 def big_loop():
     while True:
-        print("arrived in big loop")
+        #print("arrived in big loop")
         global users
         users = readPickleDict(users)
-        print(users)
+        #print(users)
         for u in users:
-            print("arrived in for loop")
-            print("User has arrived: " + str(users[u][2]))
+            #print("arrived in for loop")
+            #print("Tracking user?: " + str(users[u][2]))
             if users[u][2]:
                 dest = users[u][0]
                 mode = users[u][1]
                 threshold = 0.5 # train
                 if (mode == "bus"):
                     threshold = 0.25 # bus
-                print("tracking " + str(u) + " on " + str(mode))
+                print("tracking on " + str(mode) + " to " + str(dest) + "\n")
                 track(u, dest, threshold)
         time.sleep(5)
 

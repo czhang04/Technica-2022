@@ -46,13 +46,14 @@ def track(phone, dest, threshold):
         
 
 def big_loop():
-    for k, v in users:
-        phone = k
-        dest = v[0]
-        threshold = 0.5 # train
-        if (v[1] == "bus"):
-            threshold = 0.25 # bus
-        track(phone, dest, threshold)
+    while True:
+        for k, v in users:
+            phone = k
+            dest = v[0]
+            threshold = 0.5 # train
+            if (v[1] == "bus"):
+                threshold = 0.25 # bus
+            track(phone, dest, threshold)
 
 if __name__ == '__main__':
     print("start")

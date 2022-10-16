@@ -35,7 +35,7 @@ def form():
             values = [coords, mode, True]
             users[val_phone] = values
             print(users)
-            return render_template('home.html', msg="Successfully added!")
+            return render_template('redirect.html')
         elif(val_phone is None):
             return render_template('home.html', msg="Invalid phone.")
         elif(dest_loc is None):
@@ -48,13 +48,19 @@ def validate_phone(phone):
         p = phonenumbers.parse(phone,"US")
         print(p)
         if not phonenumbers.is_valid_number(p):
-            p = "+1" + p
+            p = "+1" + str(p)
             p = phonenumbers.parse(phone,"US")
         if not phonenumbers.is_valid_number(p):
             return None
         return phonenumbers.format_number(p, phonenumbers.PhoneNumberFormat.E164)
     except (phonenumbers.phonenumberutil.NumberParseException, ValueError):
         return None
+
+@app.route('/success', methods=['GET', 'POST'])
+def success():
+    if request.method == 'POST':
+        return redirect(url_for('form'))
+    return render_template('redirect.html')
 
 def call(phone):
     call = client.calls.create(
@@ -64,8 +70,8 @@ def call(phone):
                     )
 
 def track(phone, dest, threshold):
-    curr_loc = geocoder.ip('me') # multiple users out of scope of this project
-    curr_coords = curr_loc.latlng
+    #curr_loc = geocoder.ip('me') # multiple users out of scope of this project
+    curr_coords = (38.9658, -77.068)#curr_loc.latlng
     if geodesic(curr_coords, dest).miles <= threshold: # user close enough to dest, call user
         #call(phone) # commented out because i have no twilio
         users[phone][2] = False
@@ -74,6 +80,7 @@ def track(phone, dest, threshold):
 
 def big_loop():
     while True:
+        time.sleep(10)
         for u in users:
             phone = u
             if users[phone][2]:

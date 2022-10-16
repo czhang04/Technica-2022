@@ -22,7 +22,7 @@ def form():
 @app.route('/call', methods=['GET', 'POST'])
 def call():
     call = client.calls.create(
-                        twiml='<Response><Gather input="dtmf" timeout="3" numDigits="1" action="/success" actionOnEmptyResult=false><Say>Press any key to confirm that you are awake.</Say></Gather></Response>',
+                        twiml='<Response><Say>You have almost arrived at your destination!</Say></Response>',
                         to='+12407510959',
                         from_='+18507883830'
                     )
